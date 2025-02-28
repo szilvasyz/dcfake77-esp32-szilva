@@ -16,8 +16,10 @@
 
 #include <WiFi.h>
 #include "time.h"
+#include "settime.h"
+
 #include "dcf77protocol.h"
-// #include "dcf77protocol.c"
+
 
 #ifndef LED_BUILTIN
 #define LED_BUILTIN 2
@@ -26,9 +28,8 @@
 const char* wifi_ssid   = "szilvanetp";
 const char* wifi_pass   = "smcbarricade7";
 
-const char* ntp_server          = "pool.ntp.org";
-const long  offset_gmt_sec      = +1 * 3600 + 60;
-const int   offset_daylight_sec = +2 * 3600 + 60;
+const char* ntp_server  = "europe.pool.ntp.org";
+const char* timezone    = "CET-1CEST,M3.5.0,M10.5.0/3";
 
 const unsigned led_pwm_freq       = 77490;
 const unsigned led_pwm_channel    =     0;
@@ -37,19 +38,17 @@ const unsigned led_pwm_resolution =     2;
 const unsigned led_pwm_duty_off   =     0;
 const unsigned led_pwm_duty_on    =     2;
 
+// time and timezone
+time_t local;
+
 static struct tm  local_time;
 static uint8_t    dcf77_one_minute_data[60];
 
 
 void PrintLocalTime()
 {
-	if(!getLocalTime(&local_time))
-	{
-		Serial.println("Failed to obtain time");
-		return;
-	}
-	
-	Serial.println(&local_time, "%A, %B %d %Y %H:%M:%S");
+	Serial.print(&local_time, "%A, %B %d %Y %H:%M:%S ");
+	Serial.println(local_time.tm_isdst ? "DST" : "   ");
 }
 
 void WaitNextSec()
@@ -76,7 +75,13 @@ void setup()
 	//init and get the time
 	while (1)
 	{
-		configTime(offset_gmt_sec, offset_daylight_sec, ntp_server);
+
+    // to debug daylight saving switch  
+    //setTime(2021,10,31,0,59,50,1);  
+    //setTimezone(timezone);
+  	
+    // to run in normal mode
+    configTzTime(timezone, ntp_server);
 		
 		if (!getLocalTime(&local_time))
 			Serial.println("Failed to obtain time");

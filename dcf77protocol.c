@@ -57,8 +57,8 @@ void dcf77_encode_data(struct tm* local_time, uint8_t* dcf77_one_minute_data)
 	dcf77_one_minute_data[15] = 1; // Antenna bit. 0 = normal operation, 1 = fault
 	
 	dcf77_one_minute_data[16] = 0;  // Summer time announcement. Set during hour before change. Always reset in this implementation
-	dcf77_one_minute_data[17] = 0;  // Set when DST is in effect. Always reset in this implementation
-	dcf77_one_minute_data[18] = 1;  // Set when DST is not in effect. Always set in this implementation
+	dcf77_one_minute_data[17] = local_time->tm_isdst;     // Set when DST is in effect. 
+	dcf77_one_minute_data[18] = 1-local_time->tm_isdst;   // Set when DST is not in effect.
 	dcf77_one_minute_data[19] = 0;  // Leap second announcement. Set during hour before leap second. Always reset in this implementation
 	
 	dcf77_one_minute_data[20] = 1; // Start of encoded time. Always set
