@@ -29,17 +29,16 @@ const char* wifi_ssid   = "szilvanetp";
 const char* wifi_pass   = "smcbarricade7";
 
 const char* ntp_server  = "europe.pool.ntp.org";
-const char* timezone    = "CET-1CEST,M3.5.0,M10.5.0/3";
+// add extra minute in TZ offsets for sending the correct time (the next minute will start at the end of the transmission) 
+const char* timezone    = "CET-1:01CEST,M3.5.0,M10.5.0/3";   // Europe/Berlin
+//const char* timezone    = "BST-0:01GMT,M3.2.0/2:00:00,M11.1.0/2:00:00";  // UK/GMT
 
 const unsigned led_pwm_freq       = 77490;
 const unsigned led_pwm_channel    =     0;
 const unsigned led_pwm_pin        =    16;
-const unsigned led_pwm_resolution =     2;
-const unsigned led_pwm_duty_off   =     0;
-const unsigned led_pwm_duty_on    =     2;
-
-// time and timezone
-time_t local;
+const unsigned led_pwm_resolution =     4;
+const unsigned led_pwm_duty_off   =     1;
+const unsigned led_pwm_duty_on    =     8;
 
 static struct tm  local_time;
 static uint8_t    dcf77_one_minute_data[60];
@@ -47,7 +46,7 @@ static uint8_t    dcf77_one_minute_data[60];
 
 void PrintLocalTime()
 {
-	Serial.print(&local_time, "%A, %B %d %Y %H:%M:%S ");
+	Serial.print(&local_time, "%A, %B %d %Y %H:%M:%S %Z ");
 	Serial.println(local_time.tm_isdst ? "DST" : "   ");
 }
 
@@ -77,7 +76,7 @@ void setup()
 	{
 
     // to debug daylight saving switch  
-    //setTime(2021,10,31,0,59,50,1);  
+    //setTime(2021,10,31,0,58,50,1);  
     //setTimezone(timezone);
   	
     // to run in normal mode
