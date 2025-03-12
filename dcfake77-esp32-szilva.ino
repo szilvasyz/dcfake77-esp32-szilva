@@ -32,13 +32,14 @@ const char* ntp_server  = "europe.pool.ntp.org";
 // add extra minute in TZ offsets for sending the correct time (the next minute will start at the end of the transmission) 
 const char* timezone    = "CET-1:01CEST,M3.5.0,M10.5.0/3";   // Europe/Berlin
 //const char* timezone    = "BST-0:01GMT,M3.2.0/2:00:00,M11.1.0/2:00:00";  // UK/GMT
+//const char* timezone    = "EST5EDT,M3.2.0/2:00:00,M11.1.0/2:00:00"; // USA/New York
 
 const unsigned led_pwm_freq       = 77490;
 const unsigned led_pwm_channel    =     0;
 const unsigned led_pwm_pin        =    16;
-const unsigned led_pwm_resolution =     4;
-const unsigned led_pwm_duty_off   =     1;
-const unsigned led_pwm_duty_on    =     8;
+const unsigned led_pwm_resolution =     5;
+const unsigned led_pwm_duty_off   =     2;
+const unsigned led_pwm_duty_on    =    16;
 
 static struct tm  local_time;
 static uint8_t    dcf77_one_minute_data[60];
