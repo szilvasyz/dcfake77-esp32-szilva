@@ -14,26 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+//
+// copy customized config_default.h to config.h
+//
+#include "config.h"
+
 #include <WiFi.h>
 #include "time.h"
 #include "settime.h"
-
 #include "dcf77protocol.h"
 
-//#define BLINK
 
 #ifndef LED_BUILTIN
 #define LED_BUILTIN 2
 #endif
 
-const char* wifi_ssid   = "szilvanetp";
-const char* wifi_pass   = "smcbarricade7";
-
-const char* ntp_server  = "europe.pool.ntp.org";
-// add extra minute in TZ offsets for sending the correct time (the next minute will start at the end of the transmission) 
-//const char* timezone    = "CET-1:01CEST,M3.5.0,M10.5.0/3";   // Europe/Berlin
-//const char* timezone    = "BST-0:01GMT,M3.2.0/2:00:00,M11.1.0/2:00:00";  // UK/GMT
-const char* timezone    = "EST4:59EDT,M3.2.0/2:00:00,M11.1.0/2:00:00"; // USA/New York
 
 const unsigned led_pwm_freq       = 77490;
 const unsigned led_pwm_channel    =     0;
